@@ -12,18 +12,27 @@ public class Servidor {
         final int PUERTO = 5000;
         byte[] buffer = new byte[65536];
 
-        Date fecha = new Date();
-        String logname = fecha.toString()+".txt";
-
-        File archivo = new File("logs/"+logname);
+       
 
         try {
 
             DatagramSocket socket = new DatagramSocket(PUERTO);
 
+            //Recibir el nombre del paquete
             // Tamaño del "paquete" con longitud de tamaño buffer
-            DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+            DatagramPacket entradaNombre = new DatagramPacket(buffer, buffer.length);
+            
+            socket.receive(entradaNombre);
 
+            String nombreArchivo = new String(entradaNombre.getData());
+            Date fecha = new Date();
+            String logname = nombreArchivo + "-" + fecha.toString()+".txt";
+    
+            File archivo = new File("logs/"+logname);
+
+            //Recibir la informacion del archivo
+            DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+            
             socket.receive(entrada);
 
             String mensaje = new String(entrada.getData());
@@ -77,6 +86,8 @@ public class Servidor {
             String respuesta = r.toString();
 
             buffer = respuesta.getBytes();
+
+            
 
             DatagramPacket salida = new DatagramPacket(buffer, buffer.length, direccion, puertoPeticion);
 

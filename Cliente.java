@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -11,12 +12,10 @@ public class Cliente extends Thread {
 
     private int solicitudes;
 
-    private String request;
 
-    public Cliente(int pId, int pSo, String pR) {
+    public Cliente(int pId, int pS) {
         id = pId;
-        solicitudes = pSo;
-        request = pR;
+        solicitudes = pS;
     }
 
     @Override
@@ -27,6 +26,11 @@ public class Cliente extends Thread {
         
         try(FileWriter escribir = new FileWriter(archivo)) {
             
+            escribir.write("100");
+            escribir.write("250");
+            escribir.write("Arepas");
+
+            FileInputStream enviado =  new FileInputStream(archivo);
 
             while (solicitudes > 0) {
                 final int PUERTO_SERV = 5000;
@@ -37,8 +41,13 @@ public class Cliente extends Thread {
 
                 DatagramSocket socket = new DatagramSocket();
 
+                // Enviar el nombre del archvio
+                buffer = logname.getBytes();
+                DatagramPacket salidaNombre = new DatagramPacket(buffer, buffer.length, direccionServ, PUERTO_SERV);
+                socket.send(salidaNombre);
+
                 // Enviar el mensaje
-                buffer = request.getBytes();
+                buffer = enviado.toString().getBytes();
 
                 DatagramPacket salida = new DatagramPacket(buffer, buffer.length, direccionServ, PUERTO_SERV);
                 socket.send(salida);
