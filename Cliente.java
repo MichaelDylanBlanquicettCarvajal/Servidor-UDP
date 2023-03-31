@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Date;
 
 public class Cliente extends Thread {
 
@@ -21,33 +23,33 @@ public class Cliente extends Thread {
     @Override
     public void run() {
 
-        String logname = "Cliente"+Integer.toString(id)+"-Prueba-"+Integer.toString(solicitudes);
-        File archivo = new File("ArchivosRecibidos/" + logname);
+        String nombreSolicitud = "Cliente"+Integer.toString(id)+"-Prueba-"+Integer.toString(solicitudes)+".txt";
+        Date fecha = new Date();
+        File archivo = new File("logs/" + fecha.toString() + "-log.txt");
         
         try(FileWriter escribir = new FileWriter(archivo)) {
             
-            escribir.write("100");
-            escribir.write("250");
+            //Se elige el archivo que se desea recibir
+            //escribir.write("100");
+            //escribir.write("250");
             escribir.write("Arepas");
-
-            FileInputStream enviado =  new FileInputStream(archivo);
 
             while (solicitudes > 0) {
                 final int PUERTO_SERV = 5000;
                 byte[] buffer = new byte[65536];
 
                 // Encontrar el servidor
-                InetAddress direccionServ = InetAddress.getByName("192.168.1.116");
+                InetAddress direccionServ = InetAddress.getByName("192.168.1.###");
 
                 DatagramSocket socket = new DatagramSocket();
 
                 // Enviar el nombre del archvio
-                buffer = logname.getBytes();
+                buffer = nombreSolicitud.getBytes();
                 DatagramPacket salidaNombre = new DatagramPacket(buffer, buffer.length, direccionServ, PUERTO_SERV);
                 socket.send(salidaNombre);
 
                 // Enviar el mensaje
-                buffer = enviado.toString().getBytes();
+                buffer = archivo.toString().getBytes();
 
                 DatagramPacket salida = new DatagramPacket(buffer, buffer.length, direccionServ, PUERTO_SERV);
                 socket.send(salida);
