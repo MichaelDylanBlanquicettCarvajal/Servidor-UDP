@@ -21,6 +21,8 @@ public class Servidor extends Thread{
             final int PUERTO = 5000;
             byte[] buffer = new byte[65536];
 
+            System.out.println("Servidor Disponible");
+
             try {
 
                 DatagramSocket socket = new DatagramSocket(PUERTO);

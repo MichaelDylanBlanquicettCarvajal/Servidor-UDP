@@ -39,7 +39,7 @@ public class Cliente extends Thread {
                 byte[] buffer = new byte[65536];
 
                 // Encontrar el servidor
-                InetAddress direccionServ = InetAddress.getByName("192.168.1.###");
+                InetAddress direccionServ = InetAddress.getByName("192.168.0.159");
 
                 DatagramSocket socket = new DatagramSocket();
 
