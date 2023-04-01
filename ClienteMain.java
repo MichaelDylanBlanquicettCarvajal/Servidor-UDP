@@ -5,13 +5,12 @@ public class ClienteMain {
         
 
         int id = 0;
-
         int solicitudes = 1;
 
         int numUsuarios = 1;
         ArrayList<Cliente> clientes = new ArrayList<>();
 
-        for (int i = 0; i < clientes.size(); i++) {
+        for (int i = 0; i < numUsuarios; i++) {
 
             Cliente nuevo = new Cliente(id, solicitudes);
             clientes.add(nuevo);
@@ -20,6 +19,6 @@ public class ClienteMain {
         for (int i = 0; i < clientes.size(); i++) {
             clientes.get(i).start();
         }
-        
+
     }
 }

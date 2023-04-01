@@ -25,9 +25,8 @@ public class Cliente extends Thread {
 
         String nombreSolicitud = "Cliente"+Integer.toString(id)+"-Prueba-"+Integer.toString(solicitudes)+".txt";
         Date fecha = new Date();
-        File archivo = new File("logs/" + fecha.toString() + "-log.txt");
         
-        try(FileWriter escribir = new FileWriter(archivo)) {
+        try(FileWriter escribir = new FileWriter("logs/" + fecha.toString() + "-log.txt")) {
             
             //Se elige el archivo que se desea recibir
             //escribir.write("100");
@@ -43,6 +42,7 @@ public class Cliente extends Thread {
 
                 DatagramSocket socket = new DatagramSocket();
 
+                System.out.println("Se envia el mensaje con la solicitud");
                 // Enviar el nombre del archvio
                 buffer = nombreSolicitud.getBytes();
                 DatagramPacket salidaNombre = new DatagramPacket(buffer, buffer.length, direccionServ, PUERTO_SERV);

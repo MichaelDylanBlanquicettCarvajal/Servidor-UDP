@@ -36,15 +36,14 @@ public class Servidor extends Thread{
                 String nombreArchivo = new String(entradaNombre.getData());
                 Date fecha = new Date();
                 String logname = fecha.toString() + ".txt";
-                File archivo = new File("logs/" + logname);
-
+                
                 // Recibir la informacion del archivo
                 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
                 socket.receive(entrada);
                 String mensaje = new String(entrada.getData());
 
                 // Meter nombre de la peticion en el log
-                FileWriter escribir = new FileWriter(archivo);
+                FileWriter escribir = new FileWriter(logname);
                 escribir.write(nombreArchivo+"\n");
 
                 // Se recopila informacion del solicitante
